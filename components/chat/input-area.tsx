@@ -1,6 +1,6 @@
 "use client";
 
-import {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Button} from "@/components/ui/button";
 import {Textarea} from "@/components/ui/textarea";
 import {Bot, Paperclip, Plus, Send} from "lucide-react";
@@ -8,7 +8,7 @@ import {SuggestionChips} from "./suggestion-chips";
 import {cn} from "@/lib/utils";
 
 interface InputAreaProps {
-    onSend: (message: string) => void;
+    onSend: (message: string) => string | void;
     onUpload?: (file: File) => void;
     onNewChat?: () => void;
     isLoading?: boolean;
@@ -28,8 +28,12 @@ export function InputArea({
 
     const handleSend = () => {
         if (!input.trim() || isLoading) return;
-        onSend(input);
-        setInput("");
+        const result = onSend(input);
+        if (result !== undefined) {
+            setInput(result as string);
+        } else {
+            setInput("");
+        }
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {

@@ -8,8 +8,10 @@ import {Label} from "@/components/ui/label";
 import {Textarea} from "@/components/ui/textarea";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {toast} from "sonner";
-import {BarChart, CircleDollarSign, Globe, Store, Target, Users} from "lucide-react";
+import {BarChart, CircleDollarSign, Globe, LogOut, Store, Target, Users, X} from "lucide-react";
 import {BUSINESS_GOALS, BUSINESS_TYPES, MARKETING_CHANNELS, REVENUE_RANGES} from "@/lib/constants";
+import {signOut} from "next-auth/react";
+import {useRouter} from "next/navigation";
 
 export default function BusinessProfilePage() {
     const [isEditing, setIsEditing] = useState(false);
@@ -23,22 +25,48 @@ export default function BusinessProfilePage() {
         primaryChannel: "social",
         targetAudience: "Women aged 25-45 interested in sustainable fashion and ethical shopping practices, primarily located in urban areas with disposable income.",
     });
+    const router = useRouter();
 
     const handleSave = () => {
         toast.success("Business profile updated");
         setIsEditing(false);
     };
-
+    const handleLogout = async () => {
+        try {
+            await signOut({callbackUrl: '/'});
+            toast.success("Logged out successfully");
+        } catch (error) {
+            toast.error("Failed to log out");
+            console.error(error);
+        }
+    };
     return (
         <div className="container mx-auto max-w-5xl p-4 py-8">
             <div className="flex items-center justify-between mb-6">
                 <h1 className="text-3xl font-bold">Business Profile</h1>
-                <Button
-                    onClick={() => setIsEditing(!isEditing)}
-                    variant={isEditing ? "outline" : "default"}
-                >
-                    {isEditing ? "Cancel" : "Edit Profile"}
-                </Button>
+                <div className="flex gap-2">
+                    <Button
+                        onClick={() => setIsEditing(!isEditing)}
+                        variant={isEditing ? "outline" : "default"}
+                    >
+                        {isEditing ? "Cancel" : "Edit Profile"}
+                    </Button>
+                    <Button
+                        onClick={handleLogout}
+                        variant="ghost"
+                        className="gap-2"
+                    >
+                        <LogOut className="h-4 w-4"/>
+                        Logout
+                    </Button>
+                    <Button
+                        onClick={() => router.back()}
+                        variant="ghost"
+                        className="gap-2"
+                    >
+                        <X className="h-6 w-6"/>
+                    </Button>
+                </div>
             </div>
 
             <div className="grid gap-6 md:grid-cols-2">

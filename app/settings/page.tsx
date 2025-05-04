@@ -7,6 +7,8 @@ import {Label} from "@/components/ui/label";
 import {Switch} from "@/components/ui/switch";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {toast} from "sonner";
+import {X} from "lucide-react";
+import {useRouter} from "next/navigation";
 
 export default function SettingsPage() {
     const [settings, setSettings] = useState({
@@ -17,6 +19,7 @@ export default function SettingsPage() {
         language: "english",
         emailFrequency: "weekly"
     });
+    const router = useRouter();
 
     const handleSave = () => {
         toast.success("Settings saved successfully");
@@ -24,7 +27,16 @@ export default function SettingsPage() {
 
     return (
         <div className="container mx-auto max-w-4xl p-4 py-8">
-            <h1 className="text-3xl font-bold mb-6">Settings</h1>
+            <div className="flex items-center justify-between mb-6">
+                <h1 className="text-3xl font-bold">Settings</h1>
+                <Button
+                    onClick={() => router.back()}
+                    variant="ghost"
+                    className="gap-2"
+                >
+                    <X className="h-6 w-6"/>
+                </Button>
+            </div>
 
             <div className="space-y-6">
                 <Card>

@@ -24,7 +24,6 @@ export function ChatContainer() {
     const [isPlaying, setIsPlaying] = useState(false);
     const [hasInteracted, setHasInteracted] = useState(false);
     const audioRef = useRef<HTMLAudioElement | null>(null);
-
     // Determine which audio to play based on localStorage
     const [audioUrl, setAudioUrl] = useState<string | null>(null);
 
@@ -176,7 +175,12 @@ export function ChatContainer() {
         }
     }, [messages]);
 
-    const handleSendMessage = async (content: string) => {
+    const handleSendMessage = (content: string): string | void => {
+        if (messages.length >= 5) {
+            setShowUpgradeDialog(true);
+            return content; // Return the content so InputArea can keep it
+        }
+
         if (isLoading) return;
 
         const userMessage: Message = {
@@ -210,8 +214,9 @@ export function ChatContainer() {
             setIsLoading(false);
             setLoadingMessage(null);
         }
-    };
 
+        return ""; // Return empty string to clear input when successful
+    };
     const handleFileUpload = (file: File) => {
         setUploadedFile(file);
         toast.success(`File uploaded: ${file.name}`);

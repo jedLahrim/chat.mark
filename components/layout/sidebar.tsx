@@ -2,12 +2,27 @@
 
 import {cn} from "@/lib/utils";
 import {Button} from "@/components/ui/button";
-import {ChevronLeft, ChevronRight, LucideProps, MessageSquare, Plus, Settings, Sparkles, User, X} from "lucide-react";
+import {
+    ChevronLeft,
+    ChevronRight,
+    LogOut,
+    LucideProps,
+    Mail,
+    MessageSquare,
+    Plus,
+    Settings,
+    Sparkles,
+    User,
+    X
+} from "lucide-react";
 import Link from "next/link";
 import {APP_NAME} from "@/lib/constants";
 import {usePathname} from "next/navigation";
 import * as react from "react";
 import React, {useState} from "react";
+import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,} from "@/components/ui/dropdown-menu";
+import {signOut} from "next-auth/react";
+import {toast} from "sonner";
 
 interface SidebarProps {
     isOpen: boolean;
@@ -27,10 +42,9 @@ export function Sidebar({isOpen, onToggle}: SidebarProps) {
         icon: react.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & react.RefAttributes<SVGSVGElement>>,
         label: string,
     }> = [
-        // {href: "/growth-plan", icon: BarChart3, label: "Growth Plan"},
-        {href: "/business-profile", icon: User, label: "Business Profile"},
         {href: "/settings", icon: Settings, label: "Settings"},
-    ]
+    ];
+
     const toggleCollapse = () => {
         setCollapsed(!collapsed);
     };
@@ -39,6 +53,16 @@ export function Sidebar({isOpen, onToggle}: SidebarProps) {
         if (collapsed) {
             e.preventDefault();
             toggleCollapse();
+        }
+    };
+
+    const handleLogout = async () => {
+        try {
+            await signOut({callbackUrl: '/'});
+            toast.success("Logged out successfully");
+        } catch (error) {
+            toast.error("Failed to log out");
+            console.error(error);
         }
     };
 
@@ -147,7 +171,6 @@ export function Sidebar({isOpen, onToggle}: SidebarProps) {
                     ))}
                 </nav>}
 
-
                 {/* Bottom Navigation */}
                 <div className={cn("mt-auto p-2 border-t space-y-1", collapsed ? "flex flex-col items-center" : "")}>
                     {bottomFeatures.map((item) => (
@@ -163,6 +186,38 @@ export function Sidebar({isOpen, onToggle}: SidebarProps) {
                             </Link>
                         </Button>
                     ))}
+
+                    {/* Business Profile Dropdown */}
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button
+                                variant="ghost"
+                                className={cn("w-full justify-start", collapsed ? "justify-center" : "")}
+                            >
+                                <User className="h-4 w-4"/>
+                                {!collapsed && <span className="ml-2">Account</span>}
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent side="right" align="start" className="w-48">
+                            <DropdownMenuItem asChild>
+                                <Link href="/business-profile" className="flex items-center gap-2">
+                                    <User className="h-4 w-4"/>
+                                    Business Profile
+                                </Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <Link href="/contact-us" className="flex items-center gap-2">
+                                    <Mail className="h-4 w-4"/>
+                                    Contact Us
+                                </Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={handleLogout}
+                                              className="flex items-center gap-2 text-destructive">
+                                <LogOut className="h-4 w-4"/>
+                                Logout
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </div>
             </aside>
 
