@@ -146,7 +146,7 @@ export function CircularAudioSpectrum({
     };
 
     return (
-        <div className="relative mx-auto mb-10 md:mb-40" style={{width: size, height: size}}>
+        <div className="relative mx-auto mb-4 md:mb-40" style={{width: size, height: size}}>
             <canvas
                 ref={canvasRef}
                 width={size}
