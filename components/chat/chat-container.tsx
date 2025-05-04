@@ -6,12 +6,12 @@ import {Message} from "@/types";
 import {toast} from "sonner";
 import {Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle} from "@/components/ui/dialog";
 import {Button} from "@/components/ui/button";
-import {CircularAudioSpectrum} from "@/components/chat/circular-audio-spectrum"; // Import the circular audio spectrum
-
-// Path to your greeting audio file (place this in your public folder)
-const GREETING_AUDIO_URL = '/audio/welcome-greeting.mp3';
+import {CircularAudioSpectrum} from "@/components/chat/circular-audio-spectrum";
+import {Constant} from "@/app/common/constants/constant";
 
 export function ChatContainer() {
+    // const {data: session, status} = useSession();
+    // const router = useRouter();
     const [messages, setMessages] = useState<Message[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [loadingMessage, setLoadingMessage] = useState<Message | null>(null);
@@ -25,6 +25,22 @@ export function ChatContainer() {
     const [hasInteracted, setHasInteracted] = useState(false);
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
+    // Determine which audio to play based on localStorage
+    const [audioUrl, setAudioUrl] = useState<string | null>(null);
+
+    // useEffect(() => {
+    //     if (status === "unauthenticated") {
+    //         router.push("/");
+    //     }
+    // }, [status, router]);
+    //
+    // if (status === "loading") {
+    //     return <div>Loading...</div>;
+    // }
+    //
+    // if (!session) {
+    //     return null;
+    // }
     // Check for user interaction
     useEffect(() => {
         const handleInteraction = () => {
@@ -51,18 +67,57 @@ export function ChatContainer() {
         };
     }, []);
 
-    // Initialize and play audio greeting
+    // Determine which audio to play based on visit history
     useEffect(() => {
-        if (!hasInteracted) return;
+        // Check if this is running in the browser (not during SSR)
+        if (typeof window !== 'undefined') {
+            const isFirstVisit = localStorage.getItem(Constant.FIRST_VISIT_KEY) === null;
+            const lastGreetingTimestamp = localStorage.getItem(Constant.LAST_GREETING_TIMESTAMP_KEY);
+            const currentTime = Date.now();
 
-        const audio = new Audio(GREETING_AUDIO_URL);
+            // Determine if we should play any greeting
+            let shouldPlayGreeting = false;
+            let audioToPlay = null;
+
+            if (isFirstVisit) {
+                // First time user - play first visit greeting
+                shouldPlayGreeting = true;
+                audioToPlay = Constant.FIRST_VISIT_AUDIO_URL;
+
+                // Mark first visit as completed
+                localStorage.setItem(Constant.FIRST_VISIT_KEY, 'true');
+                localStorage.setItem(Constant.LAST_GREETING_TIMESTAMP_KEY, currentTime.toString());
+            } else if (!lastGreetingTimestamp || (currentTime - parseInt(lastGreetingTimestamp)) > Constant.TWELVE_HOURS) {
+                // It's been more than 12 hours since last greeting - play recurring greeting
+                shouldPlayGreeting = true;
+                audioToPlay = Constant.RECURRING_AUDIO_URL;
+
+                // Update last greeting timestamp
+                localStorage.setItem(Constant.LAST_GREETING_TIMESTAMP_KEY, currentTime.toString());
+            } else {
+                // Less than 12 hours since last greeting - don't play anything
+                shouldPlayGreeting = false;
+                // setShowGreeting(false);
+            }
+
+            if (shouldPlayGreeting) {
+                setAudioUrl(audioToPlay);
+            }
+        }
+    }, []);
+
+    // Initialize and play audio greeting if needed
+    useEffect(() => {
+        if (!hasInteracted || !audioUrl) return;
+
+        const audio = new Audio(audioUrl);
         audioRef.current = audio;
 
         const handlePlay = () => setIsPlaying(true);
         const handleEnd = () => {
             setIsPlaying(false);
             // Hide greeting animation a bit before audio ends
-            setTimeout(() => setShowGreeting(false), 1000);
+            setTimeout(() => setShowGreeting(false));
         };
         const handleError = (e: any) => {
             console.error('Audio error:', e);
@@ -96,7 +151,7 @@ export function ChatContainer() {
             audio.removeEventListener('ended', handleEnd);
             audio.removeEventListener('error', handleError);
         };
-    }, [hasInteracted]);
+    }, [hasInteracted, audioUrl]);
 
     const handleCloseGreeting = () => {
         if (audioRef.current) {
@@ -176,7 +231,7 @@ export function ChatContainer() {
                 uploadedFile={uploadedFile}
             />
 
-            {/* Audio greeting animation */}
+            {/* Audio greeting animation - only shown if there's an audio to play */}
             {showGreeting && (
                 <CircularAudioSpectrum
                     isPlaying={isPlaying}

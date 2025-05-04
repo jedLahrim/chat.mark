@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    output: 'export',
+    // output: 'export',
     eslint: {
         ignoreDuringBuilds: true,
     },
@@ -10,6 +10,7 @@ const nextConfig = {
     experimental: {
         turbo: {},
     },
+    devIndicators: false,
     webpack: (config) => {
         config.module.rules.push({
             test: /\.(png|jpe?g|gif|svg|mp3|wav|mp4)$/,

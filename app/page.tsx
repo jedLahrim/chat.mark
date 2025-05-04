@@ -1,5 +1,8 @@
+'use client'
+import {useSession} from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
+import React, {useState} from "react";
 import {ThemeToggle} from "@/components/ui/theme-toggle";
 import {Button} from "@/components/ui/button";
 import {
@@ -14,8 +17,28 @@ import {
 } from "lucide-react";
 import {APP_NAME} from "@/lib/constants";
 import {ScrollReveal} from "@/components/animations/scroll-reveal";
+import {AuthModal} from "@/components/ui/modal/auth.modal";
 
 export default function Home() {
+    const {data: session, status} = useSession();
+    const [showAuthModal, setShowAuthModal] = useState(false);
+    const [authModalMode, setAuthModalMode] = useState("signin");
+
+    const handleChatClick = (e: React.MouseEvent) => {
+        if (status === "unauthenticated") {
+            e.preventDefault();
+            setAuthModalMode("signin");
+            setShowAuthModal(true);
+        }
+        // If authenticated, the link will proceed normally
+    };
+
+    const handleSignUpClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        setAuthModalMode("signup");
+        setShowAuthModal(true);
+    };
+
     return (
         <div className="flex min-h-screen flex-col">
             {/* Header */}
@@ -27,7 +50,7 @@ export default function Home() {
                     </div>
                     <div className="flex items-center space-x-4">
                         <ThemeToggle/>
-                        <Link href="/chat">
+                        <Link href="/chat" onClick={handleChatClick}>
                             <Button>Try for Free</Button>
                         </Link>
                     </div>
@@ -48,7 +71,7 @@ export default function Home() {
                                     optimize campaigns, and drive explosive growth in record time.
                                 </p>
                                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                                    <Link href="/chat">
+                                    <Link href="/chat" onClick={handleChatClick}>
                                         <Button size="lg" className="w-full sm:w-auto">
                                             Start Chatting <ArrowRight className="ml-2 h-4 w-4"/>
                                         </Button>
@@ -184,7 +207,7 @@ export default function Home() {
                             Join thousands of e-commerce businesses that are using {APP_NAME} to accelerate their growth
                             and outperform competitors.
                         </p>
-                        <Link href="/chat">
+                        <Link href="/chat" onClick={handleChatClick}>
                             <Button size="lg" className="px-8">
                                 Start Free Trial <ArrowRight className="ml-2 h-4 w-4"/>
                             </Button>
@@ -213,6 +236,13 @@ export default function Home() {
                     </div>
                 </div>
             </footer>
+
+            {/* Authentication Modal */}
+            <AuthModal
+                isOpen={showAuthModal}
+                onOpenChange={setShowAuthModal}
+                initialMode={authModalMode}
+            />
         </div>
     );
 }
