@@ -182,7 +182,7 @@ export function ChatContainer() {
                     isPlaying={isPlaying}
                     audioElement={audioRef.current}
                     onClose={handleCloseGreeting}
-                    size={220}
+                    size={280}
                 />
             )}
 

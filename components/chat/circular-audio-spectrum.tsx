@@ -7,7 +7,7 @@ export function CircularAudioSpectrum({
                                           audioElement = null,
                                           onClose = () => {
                                           },
-                                          size = 220
+                                          size = 280
                                       }) {
     const canvasRef = useRef(null);
     const animationRef = useRef(null);
