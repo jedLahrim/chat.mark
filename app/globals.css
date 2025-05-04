@@ -1,0 +1,246 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --foreground-rgb: 0, 0, 0;
+        --background-start-rgb: 214, 219, 220;
+        --background-end-rgb: 255, 255, 255;
+
+        --background: 0 0% 100%;
+        --foreground: 0 0% 3.9%;
+        --card: 0 0% 100%;
+        --card-foreground: 0 0% 3.9%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 0 0% 3.9%;
+
+        /* Marketing Blue */
+        --primary: 217 74% 56%;
+        --primary-foreground: 0 0% 98%;
+
+        /* Growth Green */
+        --secondary: 142 70% 45%;
+        --secondary-foreground: 0 0% 9%;
+
+        /* Neutral */
+        --muted: 0 0% 96.1%;
+        --muted-foreground: 0 0% 45.1%;
+
+        /* Neutral Light */
+        --accent: 0 0% 96.1%;
+        --accent-foreground: 0 0% 9%;
+
+        /* Action Orange */
+        --destructive: 24 95% 53%;
+        --destructive-foreground: 0 0% 98%;
+
+        /* UI Elements */
+        --border: 0 0% 89.8%;
+        --input: 0 0% 89.8%;
+        --ring: 217 74% 56%;
+
+        /* Charts */
+        --chart-1: 217 74% 56%;
+        --chart-2: 142 70% 45%;
+        --chart-3: 197 37% 24%;
+        --chart-4: 24 95% 53%;
+        --chart-5: 27 87% 67%;
+
+        --radius: 0.5rem;
+    }
+
+    .dark {
+        --background: 0 0% 5.9%;
+        --foreground: 0 0% 98%;
+        --card: 0 0% 7.9%;
+        --card-foreground: 0 0% 98%;
+        --popover: 0 0% 7.9%;
+        --popover-foreground: 0 0% 98%;
+
+        /* Marketing Blue - Adjusted for dark mode */
+        --primary: 217 74% 60%;
+        --primary-foreground: 0 0% 98%;
+
+        /* Growth Green - Adjusted for dark mode */
+        --secondary: 142 70% 45%;
+        --secondary-foreground: 0 0% 9%;
+
+        /* Dark Neutral */
+        --muted: 0 0% 14.9%;
+        --muted-foreground: 0 0% 63.9%;
+
+        /* Dark Neutral Alt */
+        --accent: 0 0% 14.9%;
+        --accent-foreground: 0 0% 98%;
+
+        /* Action Orange - Adjusted for dark mode */
+        --destructive: 24 95% 53%;
+        --destructive-foreground: 0 0% 98%;
+
+        /* UI Elements - Dark */
+        --border: 0 0% 14.9%;
+        --input: 0 0% 14.9%;
+        --ring: 217 74% 60%;
+
+        /* Charts - Dark */
+        --chart-1: 217 74% 60%;
+        --chart-2: 142 70% 45%;
+        --chart-3: 30 80% 55%;
+        --chart-4: 280 65% 60%;
+        --chart-5: 340 75% 55%;
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+        font-feature-settings: "rlig" 1, "calt" 1;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        @apply font-manrope font-bold;
+    }
+
+    h1 {
+        @apply text-3xl md:text-4xl leading-tight;
+    }
+
+    h2 {
+        @apply text-2xl md:text-3xl leading-tight;
+    }
+
+    h3 {
+        @apply text-xl md:text-2xl leading-tight;
+    }
+
+    p, li, a, span, div {
+        @apply font-inter;
+    }
+}
+
+@layer utilities {
+    .font-manrope {
+        font-family: var(--font-manrope), system-ui, sans-serif;
+    }
+
+    .font-inter {
+        font-family: var(--font-inter), system-ui, sans-serif;
+    }
+}
+
+/* Chat message styling */
+.markdown-content {
+    @apply text-base leading-relaxed;
+}
+
+.markdown-content h1 {
+    @apply text-2xl font-bold mb-4 mt-6 font-manrope;
+}
+
+.markdown-content h2 {
+    @apply text-xl font-bold mb-3 mt-5 font-manrope;
+}
+
+.markdown-content h3 {
+    @apply text-lg font-bold mb-2 mt-4 font-manrope;
+}
+
+.markdown-content p {
+    @apply mb-4;
+}
+
+.markdown-content ul {
+    @apply list-disc pl-5 mb-4;
+}
+
+.markdown-content ol {
+    @apply list-decimal pl-5 mb-4;
+}
+
+.markdown-content li {
+    @apply mb-1;
+}
+
+.markdown-content a {
+    @apply text-primary hover:underline;
+}
+
+.markdown-content blockquote {
+    @apply border-l-4 border-muted-foreground pl-4 italic my-4;
+}
+
+.markdown-content strong {
+    @apply font-bold;
+}
+
+.markdown-content table {
+    @apply w-full border-collapse my-4;
+}
+
+.markdown-content th {
+    @apply border p-2 bg-muted text-left;
+}
+
+.markdown-content td {
+    @apply border p-2;
+}
+
+.markdown-content pre {
+    @apply bg-muted p-3 rounded-md overflow-x-auto my-4;
+}
+
+.markdown-content code {
+    @apply font-mono text-sm;
+}
+
+/* Animation */
+.fade-in {
+    animation: fadeIn 0.3s ease-in;
+}
+
+.slide-up {
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-muted-foreground/40 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/60;
+}
