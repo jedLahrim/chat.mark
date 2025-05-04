@@ -44,7 +44,7 @@ export default function Home() {
                                     Your AI <span className="text-primary">Marketing</span> Expert
                                 </h1>
                                 <p className="text-xl text-muted-foreground">
-                                    {APP_NAME} helps e-commerce businesses create winning marketing strategies,
+                                    {APP_NAME} helps saas and e-commerce businesses create winning marketing strategies,
                                     optimize campaigns, and drive explosive growth in record time.
                                 </p>
                                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
