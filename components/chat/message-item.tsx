@@ -17,6 +17,13 @@ interface MessageItemProps {
     isLoading?: boolean;
 }
 
+type CodeProps = {
+    node: any; // Adjust type accordingly if you have a specific type
+    inline?: boolean; // Make inline optional
+    className?: string;
+    children: React.ReactNode;
+};
+
 export function MessageItem({message, isLoading = false}: MessageItemProps) {
     useEffect(() => {
         Prism.highlightAll();
@@ -63,7 +70,7 @@ export function MessageItem({message, isLoading = false}: MessageItemProps) {
                                 pre: ({node, ...props}) => (
                                     <pre className="p-4 rounded bg-muted overflow-x-auto" {...props} />
                                 ),
-                                code: ({node, inline, className, children, ...props}) => {
+                                code: ({node, inline, className, children, ...props}: CodeProps) => {
                                     const match = /language-(\w+)/.exec(className || "");
                                     if (inline) {
                                         return (
