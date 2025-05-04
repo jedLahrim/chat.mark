@@ -18,16 +18,17 @@ import {
 import {APP_NAME} from "@/lib/constants";
 import {ScrollReveal} from "@/components/animations/scroll-reveal";
 import {AuthModal} from "@/components/ui/modal/auth.modal";
+import {SignType} from "@/app/common/enums/auth.enum";
 
 export default function Home() {
     const {data: session, status} = useSession();
     const [showAuthModal, setShowAuthModal] = useState(false);
-    const [authModalMode, setAuthModalMode] = useState("signin");
+    const [authModalMode, setAuthModalMode] = useState<SignType>(SignType.SIGN_IN);
 
     const handleChatClick = (e: React.MouseEvent) => {
         if (status === "unauthenticated") {
             e.preventDefault();
-            setAuthModalMode("signin");
+            setAuthModalMode(SignType.SIGN_IN);
             setShowAuthModal(true);
         }
         // If authenticated, the link will proceed normally
@@ -35,7 +36,7 @@ export default function Home() {
 
     const handleSignUpClick = (e: React.MouseEvent) => {
         e.preventDefault();
-        setAuthModalMode("signup");
+        setAuthModalMode(SignType.SIGN_UP);
         setShowAuthModal(true);
     };
 
