@@ -24,7 +24,7 @@ export function FilePreview({file, onRemove}: FilePreviewProps) {
 
     // Function to truncate file name based on screen width
     const truncateFileName = (name: string) => {
-        const mobileLimit = 50; // Character limit for mobile
+        const mobileLimit = 25; // Character limit for mobile
         const isMobile = window.innerWidth <= 768; // Adjust based on your mobile breakpoint
         return isMobile && name.length > mobileLimit ? `${name.substring(0, mobileLimit)}...` : name;
     };
