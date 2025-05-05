@@ -15,6 +15,7 @@ import {Input} from "@/components/ui/input";
 import {Label} from "@/components/ui/label";
 import {Eye, EyeOff} from "lucide-react";
 import {SignType} from "@/app/common/enums/auth.enum";
+import {useRouter} from "next/navigation";
 
 export function AuthModal({isOpen, onOpenChange, initialMode = SignType.SIGN_UP}: {
     isOpen: boolean,
@@ -28,6 +29,7 @@ export function AuthModal({isOpen, onOpenChange, initialMode = SignType.SIGN_UP}
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
+    const router = useRouter();
 
     const handleGoogleSignIn = async () => {
         setIsLoading(true);
@@ -63,24 +65,25 @@ export function AuthModal({isOpen, onOpenChange, initialMode = SignType.SIGN_UP}
                 // Handle sign up - implement this based on your backend
                 // This is a placeholder - you'll need to implement your signup logic
                 // For example, a call to your API endpoint that handles registration
-                const response = await fetch("/api/auth/signup", {
-                    method: "POST",
-                    headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({name, email, password}),
-                });
-
-                if (response.ok) {
-                    // Auto sign in after successful signup
-                    await signIn("credentials", {
-                        redirect: true,
-                        callbackUrl: "/chat",
-                        email,
-                        password,
-                    });
-                } else {
-                    const data = await response.json();
-                    setError(data.message || "Failed to create account");
-                }
+                // const response = await fetch("/api/auth/signup", {
+                //     method: "POST",
+                //     headers: {"Content-Type": "application/json"},
+                //     body: JSON.stringify({name, email, password}),
+                // });
+                //
+                // if (response.ok) {
+                //     // Auto sign in after successful signup
+                //     await signIn("credentials", {
+                //         redirect: true,
+                //         callbackUrl: "/chat",
+                //         email,
+                //         password,
+                //     });
+                // } else {
+                //     const data = await response.json();
+                //     setError(data.message || "Failed to create account");
+                // }
+                router.push('/chat')
             }
         } catch (error) {
             setError("An unexpected error occurred");
