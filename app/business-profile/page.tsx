@@ -48,23 +48,27 @@ export default function BusinessProfilePage() {
                     <Button
                         onClick={() => setIsEditing(!isEditing)}
                         variant={isEditing ? "outline" : "default"}
+                        size="sm"
+                        className="sm:size-default"
                     >
                         {isEditing ? "Cancel" : "Edit Profile"}
                     </Button>
                     <Button
                         onClick={handleLogout}
                         variant="ghost"
-                        className="gap-2"
+                        size="sm"
+                        className="gap-2 sm:size-default"
                     >
                         <LogOut className="h-4 w-4"/>
-                        Logout
+                        <span className="hidden sm:inline">Logout</span>
                     </Button>
                     <Button
                         onClick={() => router.back()}
                         variant="ghost"
-                        className="gap-2"
+                        size="sm"
+                        className="gap-2 sm:size-default"
                     >
-                        <X className="h-6 w-6"/>
+                        <X className="h-4 w-4 sm:h-6 sm:w-6"/>
                     </Button>
                 </div>
             </div>

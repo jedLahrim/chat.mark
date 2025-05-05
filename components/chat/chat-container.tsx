@@ -161,13 +161,6 @@ export function ChatContainer() {
         setShowGreeting(false);
     };
 
-    // Show upgrade dialog after 5 messages
-    useEffect(() => {
-        if (messages.length >= 5) {
-            setShowUpgradeDialog(true);
-        }
-    }, [messages]);
-
     // Auto-scroll to bottom when messages change
     useEffect(() => {
         if (bottomRef.current) {

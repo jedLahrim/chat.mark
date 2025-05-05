@@ -198,7 +198,7 @@ export function Sidebar({isOpen, onToggle}: SidebarProps) {
                                 {!collapsed && <span className="ml-2">Account</span>}
                             </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent side="right" align="start" className="w-48">
+                        <DropdownMenuContent side="top" align="center" className="w-48">
                             <DropdownMenuItem asChild>
                                 <Link href="/business-profile" className="flex items-center gap-2">
                                     <User className="h-4 w-4"/>

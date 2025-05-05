@@ -8,5 +8,5 @@ export class Constant {
     static LAST_GREETING_TIMESTAMP_KEY = 'last_greeting_timestamp';
 
 // Time constants (in milliseconds)
-    static TWELVE_HOURS = 2000; // 12 hours in milliseconds
+    static TWELVE_HOURS = 12 * 60 * 60 * 1000; // 12 hours in milliseconds
 }
