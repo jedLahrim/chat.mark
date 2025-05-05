@@ -1,24 +1,40 @@
 "use client";
-
 import * as React from "react";
 import {useTheme} from "next-themes";
 import {Button} from "@/components/ui/button";
 import {Moon, Sun} from "lucide-react";
 
 export function ThemeToggle() {
-    const {setTheme, theme} = useTheme();
-    // Ensure the theme is set correctly on the first render
+    const {setTheme, theme, systemTheme} = useTheme();
+    const [mounted, setMounted] = React.useState(false);
+
+    // Mount component after hydration to access window object
     React.useEffect(() => {
-        if (theme === undefined) {
-            setTheme("light"); // or "dark" based on your preference
-        }
-    }, [theme, setTheme]);
+        setMounted(true);
+    }, []);
+
+    // Prevent hydration mismatch by not rendering icons until mounted
+    if (!mounted) {
+        return (
+            <Button
+                variant="ghost"
+                size="icon"
+                className="rounded-full"
+                aria-label="Toggle theme"
+            >
+                <div className="h-5 w-5"/>
+            </Button>
+        );
+    }
+
+    // Now that we're mounted, we can safely check the theme
+    const currentTheme = theme === "system" ? systemTheme : theme;
 
     return (
         <Button
             variant="ghost"
             size="icon"
-            onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+            onClick={() => setTheme(currentTheme === "light" ? "dark" : "light")}
             className="rounded-full"
             aria-label="Toggle theme"
         >
