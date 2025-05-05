@@ -25,9 +25,10 @@ export class Message {
     role: "user" | "assistant" | "system";
     content: string;
     createdAt?: Date;
+    file?: File;
 }
 
-export class Conversation  {
+export class Conversation {
     id: string;
     title: string;
     messages?: Message[];

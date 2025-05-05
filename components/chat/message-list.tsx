@@ -20,7 +20,7 @@ export function MessageList({
                                 uploadedFile
                             }: MessageListProps) {
     const {ref, inView} = useInView();
-    const containerRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef(null);
 
     useEffect(() => {
         if (containerRef.current) {
@@ -29,27 +29,30 @@ export function MessageList({
     }, [messages, isLoading]);
 
     return (
-        <div ref={containerRef} className="flex-1 overflow-y-auto">
-            <div className="flex flex-col divide-y">
+        <div className="flex-1 overflow-y-auto" ref={containerRef}>
+            <div className="container mx-auto max-w-3xl px-4 py-4 space-y-4">
                 {messages.map((message, index) => (
-                    <MessageItem
-                        key={`${message.id || index}`}
-                        message={message}
-                    />
-                ))}
-                {uploadedFile && (
-                    <div className="p-4 md:ml-64">
-                        <FilePreview file={uploadedFile}/>
+                    <div key={message.id} className="space-y-2">
+                        <MessageItem message={message}/>
+                        {message.file && (
+                            <FilePreview
+                                file={message.file}
+                                onRemove={() => {
+                                    // Handle file removal if needed
+                                    const updatedMessages = [...messages];
+                                    updatedMessages[index].file = undefined;
+                                    // You would need a way to update the messages state here
+                                    // Maybe pass a callback prop to handle this
+                                }}
+                            />
+                        )}
                     </div>
-                )}
+                ))}
                 {isLoading && loadingMessage && (
-                    <MessageItem
-                        message={loadingMessage}
-                        isLoading={true}
-                    />
+                    <MessageItem message={loadingMessage}/>
                 )}
             </div>
-            <div ref={ref} className="h-px"/>
+            <div ref={ref}/>
         </div>
     );
 }

@@ -169,7 +169,7 @@ export function ChatContainer() {
     }, [messages, uploadedFile, loadingMessage]);
 
     const handleSendMessage = (content: string): string | void => {
-        if (messages.length >= 50) {
+        if (messages.length >= 5) {
             setShowUpgradeDialog(true);
             return content; // Return the content so InputArea can keep it
         }
@@ -181,9 +181,11 @@ export function ChatContainer() {
             role: "user",
             content,
             createdAt: new Date(),
+            file: uploadedFile || undefined
         };
 
         setMessages((prevMessages) => [...prevMessages, userMessage]);
+        setUploadedFile(null);
         setIsLoading(true);
 
         setLoadingMessage({
@@ -212,7 +214,7 @@ export function ChatContainer() {
     };
     const handleFileUpload = (file: File) => {
         setUploadedFile(file);
-        toast.success(`File uploaded: ${file.name}`, {duration: 1500});
+        toast.success(`File uploaded: ${file.name}`, {duration: 900});
     };
 
     const handleNewChat = () => {
@@ -267,7 +269,7 @@ export function ChatContainer() {
                             <li>Priority support</li>
                             <li>Custom templates</li>
                         </ul>
-                        <div className="flex justify-end space-x-2">
+                        <div className="flex justify-end space-x-3">
                             <Button variant="outline" onClick={() => setShowUpgradeDialog(false)}>
                                 Start Free Trial
                             </Button>
