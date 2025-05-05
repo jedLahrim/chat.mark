@@ -164,12 +164,12 @@ export function ChatContainer() {
     // Auto-scroll to bottom when messages change
     useEffect(() => {
         if (bottomRef.current) {
-            bottomRef.current.scrollIntoView({behavior: "smooth"});
+            bottomRef.current.scrollIntoView({ behavior: "smooth" });
         }
-    }, [messages]);
+    }, [messages, uploadedFile, loadingMessage]);
 
     const handleSendMessage = (content: string): string | void => {
-        if (messages.length >= 5) {
+        if (messages.length >= 50) {
             setShowUpgradeDialog(true);
             return content; // Return the content so InputArea can keep it
         }
@@ -212,7 +212,7 @@ export function ChatContainer() {
     };
     const handleFileUpload = (file: File) => {
         setUploadedFile(file);
-        toast.success(`File uploaded: ${file.name}`);
+        toast.success(`File uploaded: ${file.name}`, {duration: 1500});
     };
 
     const handleNewChat = () => {
@@ -269,7 +269,7 @@ export function ChatContainer() {
                         </ul>
                         <div className="flex justify-end space-x-2">
                             <Button variant="outline" onClick={() => setShowUpgradeDialog(false)}>
-                                Maybe Later
+                                Start Free Trial
                             </Button>
                             <Button onClick={() => {
                                 toast.success("Redirecting to upgrade page...");

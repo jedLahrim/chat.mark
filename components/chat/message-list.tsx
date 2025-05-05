@@ -38,7 +38,7 @@ export function MessageList({
                     />
                 ))}
                 {uploadedFile && (
-                    <div className="p-4">
+                    <div className="p-4 md:ml-64">
                         <FilePreview file={uploadedFile}/>
                     </div>
                 )}

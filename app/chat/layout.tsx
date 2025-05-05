@@ -41,7 +41,7 @@ export default function ChatLayout({
             const timer = setTimeout(() => {
                 setSidebarOpen(false);
                 setHasAutoShown(true);
-            }, 1500);
+            }, 1200);
 
             return () => clearTimeout(timer);
         }

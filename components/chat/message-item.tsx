@@ -39,7 +39,7 @@ export function MessageItem({message, isLoading = false}: MessageItemProps) {
         >
             <div className="container mx-auto flex max-w-3xl gap-4 px-4">
                 <div className="flex flex-col items-center mt-1">
-                    <Avatar className="h-8 w-8">
+                    <Avatar className="h-8 w-8 mt-3">
                         <AvatarFallback
                             className={cn(
                                 message.role === "assistant"
@@ -60,7 +60,7 @@ export function MessageItem({message, isLoading = false}: MessageItemProps) {
                     </Avatar>
                 </div>
                 <div className="flex-1 space-y-2 overflow-hidden">
-                    <div className="text-sm font-medium leading-none">
+                    <div className="text-sm font-medium leading-none mt-3">
                         {message.role === "user" ? "You" : "Mark 2"}
                     </div>
                     <div className="prose dark:prose-invert max-w-none break-words">

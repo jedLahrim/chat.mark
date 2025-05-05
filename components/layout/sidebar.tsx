@@ -23,6 +23,7 @@ import React, {useState} from "react";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,} from "@/components/ui/dropdown-menu";
 import {signOut} from "next-auth/react";
 import {toast} from "sonner";
+import {Conversation} from "@/types";
 
 interface SidebarProps {
     isOpen: boolean;
@@ -31,10 +32,10 @@ interface SidebarProps {
 
 export function Sidebar({isOpen, onToggle}: SidebarProps) {
     const pathname = usePathname();
-    const [conversations, setConversations] = useState([
-        {id: "1", title: "Marketing Strategy", date: new Date()},
-        {id: "2", title: "Email Campaign Ideas", date: new Date()},
-        {id: "3", title: "Social Media Plan", date: new Date()},
+    const [conversations, setConversations] = useState<Array<Conversation>>([
+        {id: '1', title: "Marketing Strategy", createdAt: new Date()},
+        {id: '2', title: "Email Campaign Ideas", createdAt: new Date()},
+        {id: '3', title: "Social Media Plan", createdAt: new Date()},
     ]);
     const [collapsed, setCollapsed] = useState(false);
     const bottomFeatures: Array<{
