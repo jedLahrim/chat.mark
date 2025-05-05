@@ -56,7 +56,7 @@ export function ChatContainer() {
         window.addEventListener('touchstart', handleInteraction);
         window.addEventListener('keydown', handleInteraction);
         window.addEventListener('scroll', handleInteraction);
-
+        bottomRef?.current?.scrollIntoView({behavior: "smooth"});
         // Cleanup
         return () => {
             window.removeEventListener('click', handleInteraction);
@@ -164,7 +164,7 @@ export function ChatContainer() {
     // Auto-scroll to bottom when messages change
     useEffect(() => {
         if (bottomRef.current) {
-            bottomRef.current.scrollIntoView({ behavior: "smooth" });
+            bottomRef.current.scrollIntoView({behavior: "smooth"});
         }
     }, [messages, uploadedFile, loadingMessage]);
 
